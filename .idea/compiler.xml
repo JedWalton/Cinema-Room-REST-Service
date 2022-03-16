@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="17">
+      <module name="Cinema_Room_REST_Service.Cinema_Room_REST_Service-task-build-classes-java.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Cinema_Room_REST_Service-task-build-generated-sources-annotationProcessor-java.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Cinema_Room_REST_Service-task-build-generated-sources-headers-java.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Cinema_Room_REST_Service-task-build-reports-tests.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Cinema_Room_REST_Service-task-build-test-results.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Cinema_Room_REST_Service-task-build-tmp.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Cinema_Room_REST_Service-task-out.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Cinema_Room_REST_Service-task.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Topics-LocalDate-10_days_before.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Topics-LocalDate-2_weeks_after.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Topics-LocalDate-30_years_before_and_after.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Topics-LocalDate-Convert_numbers_to_days.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Topics-LocalDate-Getting_information_on_a_day.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Topics-LocalDate-LocalDate_class.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Topics-LocalDate-Methods_of_LocalDate.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Topics-LocalDate-Print_dates_of_a_year_with_an_offset.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Topics-LocalDate-Similar_date.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Topics-LocalDate-The_first_and_the_last_day_of_a_month.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Topics-LocalDate-The_first_day_of_a_month_or_not.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Topics-LocalDate-The_last_day_of_a_month.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Topics-LocalDate-The_n-th_day_from_the_end_of_a_month.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Topics-LocalDate-Theory.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Topics-LocalDate-Working_with_dates.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Topics-Posting_and_deleting_data_via_REST-Deleting_items.main" target="11" />
+      <module name="Cinema_Room_REST_Service.Topics-Posting_and_deleting_data_via_REST-Theory.main" target="11" />
+      <module name="Cinema_Room_REST_Service.util.main" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
