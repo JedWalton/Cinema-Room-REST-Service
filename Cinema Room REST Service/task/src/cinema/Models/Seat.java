@@ -13,12 +13,13 @@ public class Seat {
         this.row = row;
         this.column = column;
         this.isAvailable = isAvailable;
-        price = row <= 4 ? 10 : 8;
+        setPrice();
     }
 
     public Seat(@JsonProperty("row") int row, @JsonProperty("column") int column) {
         this.row = row;
         this.column = column;
+        setPrice();
     }
 
     public int getRow() {
@@ -33,13 +34,17 @@ public class Seat {
         return price;
     }
 
+    private void setPrice() {
+        price = row <= 4 ? 10 : 8;
+    }
+
     @JsonIgnore
     public boolean isAvailable() {
         return isAvailable;
     }
 
-    public void setFree(boolean free) {
-        isAvailable = free;
+    public void setAvailable(boolean setAvailable) {
+        isAvailable = setAvailable;
     }
 
     @Override

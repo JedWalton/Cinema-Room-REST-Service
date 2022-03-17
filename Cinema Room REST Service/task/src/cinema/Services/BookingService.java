@@ -3,18 +3,18 @@ package cinema.Services;
 import cinema.Dictionary.ErrorMsgs;
 import cinema.Models.Cinema;
 import cinema.Models.Seat;
-import cinema.Models.TokenTicket;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import cinema.Models.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
+
+import static cinema.Helpers.Helpers.objectToJson;
 
 @Service
 public class BookingService {
@@ -27,44 +27,53 @@ public class BookingService {
     }
 
     public ResponseEntity<String> purchaseTicket(Seat seat) {
-        ResponseEntity response = getSeatAvailability(seat.getRow(), seat.getColumn());
+        Ticket ticket;
+        ResponseEntity response = getSeatAvailability(seat);
         if (response.getStatusCode().is2xxSuccessful()) {
             changeSeatAvailability(seat, false);
+            ticket = new Ticket(seat);
+            cinema.addNewActiveTickets(ticket);
+            response = new ResponseEntity(objectToJson(ticket), HttpStatus.OK);
         }
         return response;
     }
 
-    private synchronized void changeSeatAvailability(Seat seat, boolean availability) {
-        Arrays.stream(cinema.getAvailableSeats())
-                .filter(s -> s.equals(seat))
-                .forEach(s -> s.setFree(availability));
+    public ResponseEntity<String> returnTicket(String token) {
+        ResponseEntity response;
+        Optional<Ticket> ticketOpt = getTicketByToken(token);
+        if (ticketOpt.isEmpty()) {
+            response = new ResponseEntity(Map.of("error", ErrorMsgs.WRONG_TOKEN.toString()), HttpStatus.BAD_REQUEST);
+        } else {
+            Ticket ticket = ticketOpt.get();
+            changeSeatAvailability(ticket.getTicket(), true);
+            cinema.removeActiveTickets(ticket);
+            response = new ResponseEntity(Map.of("returned_ticket", ticket.getTicket()), HttpStatus.OK);
+        }
+        return response;
     }
 
-    private ResponseEntity<String> getSeatAvailability(int row, int column) {
-        ObjectMapper objectMapper = new ObjectMapper();
+    private Optional<Ticket> getTicketByToken(String token) {
+        List<Ticket> tickets = cinema.getActiveTickets();
+        Optional<Ticket> ticket = tickets.stream().filter(t -> token.contains(t.getToken())).findFirst();
+        return ticket;
+    }
+
+    private synchronized void changeSeatAvailability(Seat seat, boolean isAvailable) {
+        Arrays.stream(cinema.getSeats())
+                .filter(s -> s.equals(seat))
+                .forEach(s -> s.setAvailable(isAvailable));
+    }
+
+    private ResponseEntity<String> getSeatAvailability(Seat seat) {
         ResponseEntity seatInfo;
-        Optional<Seat> seatOpt = Arrays.stream(cinema.getSeats())
-                .filter(s -> s.getRow() == row && s.getColumn() == column)
-                .findFirst();
+        Optional<Seat> seatOpt = cinema.getSeat(seat.getRow(), seat.getColumn());
 
         if (seatOpt.isEmpty()) {
             seatInfo = new ResponseEntity(Map.of("error", ErrorMsgs.OUT_OF_BOUNDS.toString()), HttpStatus.BAD_REQUEST);
         } else if (!seatOpt.get().isAvailable()) {
             seatInfo = new ResponseEntity(Map.of("error", ErrorMsgs.NOT_AVAILABLE_TICKET.toString()), HttpStatus.BAD_REQUEST);
         } else {
-            try {
-                for (int i = 0; i < cinema.getAvailableSeats().length; i++) {
-                    Seat s = cinema.getAvailableSeats()[i];
-                    if (s == seatOpt.get()) {
-                        TokenTicket tt = new TokenTicket(UUID.randomUUID(), s);
-                        cinema.getTokenTickets().add(tt);
-                        cinema.getAvailableSeats().
-                    }
-                }
-                seatInfo = new ResponseEntity(objectMapper.writeValueAsString(Map.of("ticket", seatOpt.get())), HttpStatus.OK);
-            } catch (JsonProcessingException e) {
-                seatInfo = new ResponseEntity(Map.of("error", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            seatInfo = new ResponseEntity(objectToJson(seatOpt.get()), HttpStatus.OK);
         }
         return seatInfo;
     }

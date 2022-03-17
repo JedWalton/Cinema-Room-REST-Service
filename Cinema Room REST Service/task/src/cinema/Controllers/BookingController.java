@@ -29,4 +29,9 @@ public class BookingController {
     public ResponseEntity<String> purchaseTicket(@RequestBody Seat seat) {
         return bookingService.purchaseTicket(seat);
     }
+
+    @PostMapping("/return")
+    public ResponseEntity<String> returnTicket(@RequestBody String token) {
+        return bookingService.returnTicket(token);
+    }
 }

@@ -9,21 +9,27 @@
 ) =========|_|==============|___/=/_/_/_/
 + :: Spring Boot ::                (v2.5.6)
 
-˛2022-03-17 01:41:19.940  INFO 233380 --- [    Test worker] cinema.Main                              : Starting Main using Java 17.0.1 on PC with PID 233380 (started by jed in /home/jed/IdeaProjects/Cinema Room REST Service/Cinema Room REST Service/task)
-ß2022-03-17 01:41:19.942  INFO 233380 --- [    Test worker] cinema.Main                              : No active profile set, falling back to default profiles: default
-î2022-03-17 01:41:20.540  INFO 233380 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 28852 (http)
-Ä2022-03-17 01:41:20.546  INFO 233380 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-ñ2022-03-17 01:41:20.547  INFO 233380 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.54]
-ô2022-03-17 01:41:20.587  INFO 233380 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-•2022-03-17 01:41:20.588  INFO 233380 --- [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 623 ms
-£2022-03-17 01:41:20.798  INFO 233380 --- [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
-ú2022-03-17 01:41:20.917  INFO 233380 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoint(s) beneath base path '/actuator'
-£2022-03-17 01:41:20.936  INFO 233380 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 28852 (http) with context path ''
-ú2022-03-17 01:41:20.944  INFO 233380 --- [    Test worker] cinema.Main                              : Started Main in 1.179 seconds (JVM running for 1.549)
-†2022-03-17 01:41:21.109  INFO 233380 --- [io-28852-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-è2022-03-17 01:41:21.110  INFO 233380 --- [io-28852-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-á2022-03-17 01:41:21.110  INFO 233380 --- [io-28852-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+¸2022-03-17 21:54:15.200  INFO 40209 --- [    Test worker] cinema.Main                              : Starting Main using Java 17.0.1 on PC with PID 40209 (started by jed in /home/jed/IdeaProjects/Cinema Room REST Service/Cinema Room REST Service/task)
+¶2022-03-17 21:54:15.202  INFO 40209 --- [    Test worker] cinema.Main                              : No active profile set, falling back to default profiles: default
+ì2022-03-17 21:54:15.792  INFO 40209 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 28852 (http)
+2022-03-17 21:54:15.799  INFO 40209 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+ï2022-03-17 21:54:15.799  INFO 40209 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.54]
+ò2022-03-17 21:54:15.836  INFO 40209 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+§2022-03-17 21:54:15.836  INFO 40209 --- [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 601 ms
+¢2022-03-17 21:54:16.057  INFO 40209 --- [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+õ2022-03-17 21:54:16.166  INFO 40209 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoint(s) beneath base path '/actuator'
+¢2022-03-17 21:54:16.185  INFO 40209 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 28852 (http) with context path ''
+õ2022-03-17 21:54:16.194  INFO 40209 --- [    Test worker] cinema.Main                              : Started Main in 1.176 seconds (JVM running for 1.545)
+ü2022-03-17 21:54:16.368  INFO 40209 --- [io-28852-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+é2022-03-17 21:54:16.368  INFO 40209 --- [io-28852-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+Ü2022-03-17 21:54:16.369  INFO 40209 --- [io-28852-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
 [1;31m
 Start test 2[0m
 [1;31m
 Start test 3[0m
+[1;31m
+Start test 4[0m
+[1;31m
+Start test 5[0m
+[1;31m
+Start test 6[0m

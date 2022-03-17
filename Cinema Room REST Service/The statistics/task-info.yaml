@@ -401,6 +401,368 @@ files:
 
     }
   learner_created: false
+- name: src/resources/static/index.html
+  visible: true
+  text: |-
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Main</title>
+    </head>
+    <body>
+    <h1>Welcome!</h1>
+    </body>
+    </html>
+  learner_created: true
+- name: src/cinema/Controllers/BookingController.java
+  visible: true
+  text: |-
+    package cinema.Controllers;
+
+    import cinema.Models.Cinema;
+    import cinema.Models.Seat;
+    import cinema.Services.BookingService;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.http.ResponseEntity;
+    import org.springframework.web.bind.annotation.GetMapping;
+    import org.springframework.web.bind.annotation.PostMapping;
+    import org.springframework.web.bind.annotation.RequestBody;
+    import org.springframework.web.bind.annotation.RestController;
+
+    @RestController
+    public class BookingController {
+
+        private final BookingService bookingService;
+
+        @Autowired
+        public BookingController(BookingService bookingService) {
+            this.bookingService = bookingService;
+        }
+
+        @GetMapping("/seats")
+        public Cinema getAvailableSeatsInfo() {
+            return bookingService.getAvailableSeatsInfo();
+        }
+
+        @PostMapping("/purchase")
+        public ResponseEntity<String> purchaseTicket(@RequestBody Seat seat) {
+            return bookingService.purchaseTicket(seat);
+        }
+
+        @PostMapping("/return")
+        public ResponseEntity<String> returnTicket(@RequestBody String token) {
+            return bookingService.returnTicket(token);
+        }
+    }
+  learner_created: true
+- name: src/cinema/Dictionary/ErrorMsgs.java
+  visible: true
+  text: |-
+    package cinema.Dictionary;
+
+    public enum ErrorMsgs {
+
+        OUT_OF_BOUNDS("The number of a row or a column is out of bounds!"),
+        NOT_AVAILABLE_TICKET("The ticket has been already purchased!"),
+        WRONG_TOKEN("Wrong token!");
+
+        String error;
+
+        ErrorMsgs(String error) {
+            this.error = error;
+        }
+
+        @Override
+        public String toString() {
+            return this.error;
+        }
+    }
+  learner_created: true
+- name: src/cinema/Models/Ticket.java
+  visible: true
+  text: |-
+    package cinema.Models;
+
+    import java.util.UUID;
+
+    public class Ticket {
+        private String token;
+        private Seat ticket;
+
+        public Ticket(Seat seat) {
+            this.ticket = seat;
+            this.token = UUID.randomUUID().toString();
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public Seat getTicket() {
+            return ticket;
+        }
+
+    }
+  learner_created: true
+- name: src/cinema/Models/Cinema.java
+  visible: true
+  text: |-
+    package cinema.Models;
+
+    import com.fasterxml.jackson.annotation.JsonIgnore;
+    import org.springframework.stereotype.Component;
+
+    import java.util.ArrayList;
+    import java.util.Arrays;
+    import java.util.List;
+    import java.util.Optional;
+
+    @Component
+    public class Cinema {
+
+        private final int totalRows = 9;
+        private final int totalColumns = 9;
+        private Seat[] seats = new Seat[totalColumns * totalColumns];
+        private List<Ticket> activeTickets = new ArrayList<>();
+
+        public Cinema() {
+            if (seats[0] == null) {
+                createSeats();
+            }
+        }
+
+        public int getTotalRows() {
+            return totalRows;
+        }
+
+        public int getTotalColumns() {
+            return totalColumns;
+        }
+
+        @JsonIgnore
+        public Optional<Seat> getSeat(int row, int column) {
+            Optional<Seat> seatOpt = Arrays.stream(seats)
+                    .filter(s -> s.getRow() == row && s.getColumn() == column)
+                    .findFirst();
+            return seatOpt;
+        }
+
+        @JsonIgnore
+        public Seat[] getSeats() {
+            return seats.clone();
+        }
+
+        public Seat[] getAvailableSeats() {
+            return Arrays.stream(seats).filter(Seat::isAvailable).toArray(Seat[]::new);
+        }
+
+        public void addNewActiveTickets(Ticket activeTicket) {
+            this.activeTickets.add(activeTicket);
+        }
+
+        public void removeActiveTickets(Ticket activeTicket) {
+            this.activeTickets.remove(activeTicket);
+        }
+
+        @JsonIgnore
+        public List<Ticket> getActiveTickets() {
+            return activeTickets;
+        }
+
+        private void createSeats() {
+            int seatCounter = 0;
+            for (int r = 1; r <= totalRows; r++) {
+                for (int c = 1; c <= totalColumns; c++) {
+                    seats[seatCounter] = new Seat(r, c, true);
+                    seatCounter++;
+                }
+            }
+        }
+    }
+  learner_created: true
+- name: src/cinema/Helpers/Helpers.java
+  visible: true
+  text: |-
+    package cinema.Helpers;
+
+    import com.fasterxml.jackson.core.JsonProcessingException;
+    import com.fasterxml.jackson.databind.ObjectMapper;
+
+    public class Helpers {
+
+        public static String objectToJson(Object value) {
+            String json = null;
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                json = objectMapper.writeValueAsString(value);
+            } catch (JsonProcessingException e) {
+                e.getMessage();
+            }
+            return json;
+        }
+
+    }
+  learner_created: true
+- name: src/cinema/Services/BookingService.java
+  visible: true
+  text: |-
+    package cinema.Services;
+
+    import cinema.Dictionary.ErrorMsgs;
+    import cinema.Models.Cinema;
+    import cinema.Models.Seat;
+    import cinema.Models.Ticket;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.http.HttpStatus;
+    import org.springframework.http.ResponseEntity;
+    import org.springframework.stereotype.Service;
+
+    import java.util.Arrays;
+    import java.util.List;
+    import java.util.Map;
+    import java.util.Optional;
+
+    import static cinema.Helpers.Helpers.objectToJson;
+
+    @Service
+    public class BookingService {
+
+        @Autowired
+        private Cinema cinema;
+
+        public Cinema getAvailableSeatsInfo() {
+            return cinema;
+        }
+
+        public ResponseEntity<String> purchaseTicket(Seat seat) {
+            Ticket ticket;
+            ResponseEntity response = getSeatAvailability(seat);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                changeSeatAvailability(seat, false);
+                ticket = new Ticket(seat);
+                cinema.addNewActiveTickets(ticket);
+                response = new ResponseEntity(objectToJson(ticket), HttpStatus.OK);
+            }
+            return response;
+        }
+
+        public ResponseEntity<String> returnTicket(String token) {
+            ResponseEntity response;
+            Optional<Ticket> ticketOpt = getTicketByToken(token);
+            if (ticketOpt.isEmpty()) {
+                response = new ResponseEntity(Map.of("error", ErrorMsgs.WRONG_TOKEN.toString()), HttpStatus.BAD_REQUEST);
+            } else {
+                Ticket ticket = ticketOpt.get();
+                changeSeatAvailability(ticket.getTicket(), true);
+                cinema.removeActiveTickets(ticket);
+                response = new ResponseEntity(Map.of("returned_ticket", ticket.getTicket()), HttpStatus.OK);
+            }
+            return response;
+        }
+
+        private Optional<Ticket> getTicketByToken(String token) {
+            List<Ticket> tickets = cinema.getActiveTickets();
+            Optional<Ticket> ticket = tickets.stream().filter(t -> token.contains(t.getToken())).findFirst();
+            return ticket;
+        }
+
+        private synchronized void changeSeatAvailability(Seat seat, boolean isAvailable) {
+            Arrays.stream(cinema.getSeats())
+                    .filter(s -> s.equals(seat))
+                    .forEach(s -> s.setAvailable(isAvailable));
+        }
+
+        private ResponseEntity<String> getSeatAvailability(Seat seat) {
+            ResponseEntity seatInfo;
+            Optional<Seat> seatOpt = cinema.getSeat(seat.getRow(), seat.getColumn());
+
+            if (seatOpt.isEmpty()) {
+                seatInfo = new ResponseEntity(Map.of("error", ErrorMsgs.OUT_OF_BOUNDS.toString()), HttpStatus.BAD_REQUEST);
+            } else if (!seatOpt.get().isAvailable()) {
+                seatInfo = new ResponseEntity(Map.of("error", ErrorMsgs.NOT_AVAILABLE_TICKET.toString()), HttpStatus.BAD_REQUEST);
+            } else {
+                seatInfo = new ResponseEntity(objectToJson(seatOpt.get()), HttpStatus.OK);
+            }
+            return seatInfo;
+        }
+    }
+  learner_created: true
+- name: src/cinema/Models/Seat.java
+  visible: true
+  text: |-
+    package cinema.Models;
+
+    import com.fasterxml.jackson.annotation.JsonIgnore;
+    import com.fasterxml.jackson.annotation.JsonProperty;
+
+    public class Seat {
+        private int row;
+        private int column;
+        private int price;
+        private boolean isAvailable;
+
+        public Seat(int row, int column, boolean isAvailable) {
+            this.row = row;
+            this.column = column;
+            this.isAvailable = isAvailable;
+            setPrice();
+        }
+
+        public Seat(@JsonProperty("row") int row, @JsonProperty("column") int column) {
+            this.row = row;
+            this.column = column;
+            setPrice();
+        }
+
+        public int getRow() {
+            return row;
+        }
+
+        public int getColumn() {
+            return column;
+        }
+
+        public int getPrice() {
+            return price;
+        }
+
+        private void setPrice() {
+            price = row <= 4 ? 10 : 8;
+        }
+
+        @JsonIgnore
+        public boolean isAvailable() {
+            return isAvailable;
+        }
+
+        public void setAvailable(boolean setAvailable) {
+            isAvailable = setAvailable;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Seat seat = (Seat) o;
+
+            if (getRow() != seat.getRow()) return false;
+            return getColumn() == seat.getColumn();
+        }
+
+        @Override
+        public int hashCode() {
+            int result = getRow();
+            result = 31 * result + getColumn();
+            return result;
+        }
+    }
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/13378#comment
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Well done! You've finished the project. Select a new project on <a href="https://hyperskill.org/projects">JetBrains
+    Academy</a> to continue learning.
+  time: Thu, 17 Mar 2022 21:49:08 UTC
+record: 4
