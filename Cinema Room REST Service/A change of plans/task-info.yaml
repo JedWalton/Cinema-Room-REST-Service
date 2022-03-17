@@ -566,6 +566,54 @@ files:
         }
     }
   learner_created: true
+- name: src/cinema/Models/Token.java
+  visible: true
+  learner_created: true
+- name: src/cinema/Models/TokenTicket.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/13377#comment
-status: Unchecked
+status: Failed
+feedback:
+  message: |-
+    Wrong answer in test #3
+
+    The JSON object should contain a key &quot;token&quot;
+
+    Full JSON:
+    {
+      &quot;ticket&quot;: {
+        &quot;row&quot;: 1,
+        &quot;column&quot;: 1,
+        &quot;price&quot;: 10
+      }
+    }
+
+    Please find below the output of your program during this failed test.
+
+    ---
+
+    .   ____          _            __ _ _
+     /\\ / ___&#39;_ __ _ _(_)_ __  __ _ \ \ \ \
+    ( ( )\___ | &#39;_ | &#39;_| | &#39;_ \/ _` | \ \ \ \
+     \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+      &#39;  |____| .__|_| |_|_| |_\__, | / / / /
+     =========|_|==============|___/=/_/_/_/
+     :: Spring Boot ::                (v2.5.6)
+
+    2022-03-17 01:41:19.940  INFO 233380 --- [    Test worker] cinema.Main                              : Starting Main using Java 17.0.1 on PC with PID 233380 (started by jed in /home/jed/IdeaProjects/Cinema Room REST Service/Cinema Room REST Service/task)
+    2022-03-17 01:41:19.942  INFO 233380 --- [    Test worker] cinema.Main                              : No active profile set, falling back to default profiles: default
+    2022-03-17 01:41:20.540  INFO 233380 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 28852 (http)
+    2022-03-17 01:41:20.546  INFO 233380 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+    2022-03-17 01:41:20.547  INFO 233380 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.54]
+    2022-03-17 01:41:20.587  INFO 233380 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+    2022-03-17 01:41:20.588  INFO 233380 --- [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 623 ms
+    2022-03-17 01:41:20.798  INFO 233380 --- [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+    2022-03-17 01:41:20.917  INFO 233380 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoint(s) beneath base path &#39;/actuator&#39;
+    2022-03-17 01:41:20.936  INFO 233380 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 28852 (http) with context path &#39;&#39;
+    2022-03-17 01:41:20.944  INFO 233380 --- [    Test worker] cinema.Main                              : Started Main in 1.179 seconds (JVM running for 1.549)
+    2022-03-17 01:41:21.109  INFO 233380 --- [io-28852-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet &#39;dispatcherServlet&#39;
+    2022-03-17 01:41:21.110  INFO 233380 --- [io-28852-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet &#39;dispatcherServlet&#39;
+    2022-03-17 01:41:21.110  INFO 233380 --- [io-28852-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+  time: Thu, 17 Mar 2022 01:41:21 UTC
 record: 3

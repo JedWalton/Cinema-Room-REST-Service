@@ -3,6 +3,7 @@ package cinema.Services;
 import cinema.Dictionary.ErrorMsgs;
 import cinema.Models.Cinema;
 import cinema.Models.Seat;
+import cinema.Models.TokenTicket;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class BookingService {
@@ -51,7 +53,15 @@ public class BookingService {
             seatInfo = new ResponseEntity(Map.of("error", ErrorMsgs.NOT_AVAILABLE_TICKET.toString()), HttpStatus.BAD_REQUEST);
         } else {
             try {
-                seatInfo = new ResponseEntity(objectMapper.writeValueAsString(seatOpt.get()), HttpStatus.OK);
+                for (int i = 0; i < cinema.getAvailableSeats().length; i++) {
+                    Seat s = cinema.getAvailableSeats()[i];
+                    if (s == seatOpt.get()) {
+                        TokenTicket tt = new TokenTicket(UUID.randomUUID(), s);
+                        cinema.getTokenTickets().add(tt);
+                        cinema.getAvailableSeats().
+                    }
+                }
+                seatInfo = new ResponseEntity(objectMapper.writeValueAsString(Map.of("ticket", seatOpt.get())), HttpStatus.OK);
             } catch (JsonProcessingException e) {
                 seatInfo = new ResponseEntity(Map.of("error", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
             }

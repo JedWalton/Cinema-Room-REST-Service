@@ -3,7 +3,9 @@ package cinema.Models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class Cinema {
@@ -12,10 +14,21 @@ public class Cinema {
     private final int totalColumns = 9;
     private Seat[] seats = new Seat[totalColumns * totalColumns];
 
+    public List<TokenTicket> getTokenTickets() {
+        return tokenTickets;
+    }
+
+    public void setTokenTickets(List<TokenTicket> tokenTickets) {
+        this.tokenTickets = tokenTickets;
+    }
+
+    private List<TokenTicket> tokenTickets;
+
     public Cinema() {
         if (seats[0] == null) {
             createSeats();
         }
+        this.tokenTickets = new ArrayList<>();
     }
 
     public int getTotalRows() {
