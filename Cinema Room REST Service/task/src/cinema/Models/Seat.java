@@ -22,6 +22,9 @@ public class Seat {
         setPrice();
     }
 
+    public Seat() {
+    }
+
     public int getRow() {
         return row;
     }

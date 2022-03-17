@@ -1,14 +1,16 @@
 package cinema.Controllers;
 
+import cinema.Dictionary.ErrorMsgs;
 import cinema.Models.Cinema;
 import cinema.Models.Seat;
+import cinema.Models.Ticket;
 import cinema.Services.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 public class BookingController {
@@ -31,7 +33,16 @@ public class BookingController {
     }
 
     @PostMapping("/return")
-    public ResponseEntity<String> returnTicket(@RequestBody String token) {
-        return bookingService.returnTicket(token);
+    public ResponseEntity<String> returnTicket(@RequestBody Ticket token) {
+        return bookingService.returnTicket(token.getToken());
+    }
+
+    @PostMapping("/stats")
+    public ResponseEntity<String> getStats(@RequestParam(value = "password", required = false) String password) {
+        if (!("super_secret").equals(password)) {
+            return new ResponseEntity(Map.of("error", ErrorMsgs.WRONG_PASSWORD.toString()), HttpStatus.UNAUTHORIZED);
+        } else {
+            return bookingService.getStats();
+        }
     }
 }

@@ -1,6 +1,7 @@
 package cinema.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class Cinema {
     private final int totalColumns = 9;
     private Seat[] seats = new Seat[totalColumns * totalColumns];
     private List<Ticket> activeTickets = new ArrayList<>();
+    private Statistic statistic = new Statistic(0, seats.length, 0);
 
     public Cinema() {
         if (seats[0] == null) {
@@ -28,6 +30,18 @@ public class Cinema {
 
     public int getTotalColumns() {
         return totalColumns;
+    }
+
+    @Bean
+    @JsonIgnore
+    public Statistic getStatistic() {
+        statistic.setNumberOfAvailableSeats(getAvailableSeats().length);
+        return statistic;
+    }
+
+    @JsonIgnore
+    public void setStatistic(Statistic statistic) {
+        this.statistic = statistic;
     }
 
     @JsonIgnore
@@ -47,11 +61,11 @@ public class Cinema {
         return Arrays.stream(seats).filter(Seat::isAvailable).toArray(Seat[]::new);
     }
 
-    public void addNewActiveTickets(Ticket activeTicket) {
+    public void addNewActiveTicket(Ticket activeTicket) {
         this.activeTickets.add(activeTicket);
     }
 
-    public void removeActiveTickets(Ticket activeTicket) {
+    public void removeActiveTicket(Ticket activeTicket) {
         this.activeTickets.remove(activeTicket);
     }
 

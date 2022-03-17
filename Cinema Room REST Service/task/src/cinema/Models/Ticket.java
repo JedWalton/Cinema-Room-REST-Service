@@ -11,6 +11,9 @@ public class Ticket {
         this.token = UUID.randomUUID().toString();
     }
 
+    public Ticket() {
+    }
+
     public String getToken() {
         return token;
     }
